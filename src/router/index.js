@@ -74,7 +74,7 @@ const routes = [
       },
       // 用户文章详细信息页面
       {
-        path: '/main/articled',
+        path: '/main/articles',
         hideInMenu: true,
         component: () => import('../views/main/admin/ArticleDetail.vue'),
       },

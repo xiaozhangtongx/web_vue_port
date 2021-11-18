@@ -6,18 +6,10 @@
 -->
 <template>
   <div>
-    <a-menu
-      :selectedKeys="selectedKeys"
-      :openKeys.sync="openKeys"
-      mode="inline"
-      theme="dark"
-    >
+    <a-menu :selectedKeys="selectedKeys" :openKeys.sync="openKeys" mode="inline" theme="dark">
       <template v-for="item in menu">
-        <a-menu-item
-          v-if="!item.children"
-          :key="item.path"
-          @click="() => $router.push({ path: item.path, query: $route.query })"
-        >
+        <a-menu-item v-if="!item.children" :key="item.path"
+          @click="() => $router.push({ path: item.path, query: $route.query })">
           <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
           <span>{{ item.meta.title }}</span>
         </a-menu-item>
@@ -64,10 +56,7 @@ export default {
           delete newItem.children
           menuData.push(newItem)
           if (item.children && !item.hideChildrenInMenu) {
-            newItem.children = this.getMenuData(item.children, [
-              ...parentKeys,
-              item.path,
-            ])
+            newItem.children = this.getMenuData(item.children, [...parentKeys, item.path])
           } else {
             this.getMenuData(
               item.children,
