@@ -1,20 +1,20 @@
 <template>
   <div>
-    <!-- 修改用户对话框 -->
-    <el-dialog title="修改用户信息" :visible.sync="editDialogVisible" width="50vh"
+    <!-- 修改账号对话框 -->
+    <el-dialog title="修改个人信息" :visible.sync="editDialogVisible" width="50vh"
       @colse="editDialogClosed">
       <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="26%"
         width="95%">
-        <!-- 用户名 -->
-        <el-form-item label="用户名">
+        <!-- 账号名 -->
+        <el-form-item label="账号名">
           <el-input v-model="editForm.username" disabled></el-input>
         </el-form-item>
         <!-- 手机号 -->
-        <el-form-item label="用户邮箱" prop="email">
+        <el-form-item label="账号邮箱" prop="email">
           <el-input v-model="editForm.email"></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item label="用户生日">
+        <el-form-item label="账号生日">
           <el-date-picker type="date" placeholder="选择日期" v-model="editForm.birthday"
             value-format="yyyy-MM-dd" style="width: 100%">
           </el-date-picker>
@@ -31,11 +31,11 @@
 export default {
   data() {
     return {
-      // 控制修改用户对话框显示/隐藏
+      // 控制修改账号对话框显示/隐藏
       editDialogVisible: false,
-      // 修改用户信息
+      // 修改账号信息
       editForm: {},
-      // 修改用户表单验证规则
+      // 修改账号表单验证规则
       editFormRules: {
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -72,7 +72,8 @@ export default {
         console.log(res)
         //隐藏
         this.editDialogVisible = false
-        this.$parent.getUserList()
+        console.log(this.$parent.$parent)
+        this.$parent.$parent.showInfo()
       })
     },
   },

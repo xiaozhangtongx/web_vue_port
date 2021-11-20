@@ -44,6 +44,7 @@ Vue.use(Antd)
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://localhost:9001'
 Vue.prototype.$http = axios
+Vue.prototype.$echarts = echarts
 
 new Vue({
   router,

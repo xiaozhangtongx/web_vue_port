@@ -126,7 +126,7 @@ router.beforeEach((to, from, next) => {
   if (to.path != from.path) {
     NProgress.start()
   }
-  if (to.path == '/user/login') return next()
+  if (to.path == '/user/login' || to.path == '/user/register') return next()
   const store = window.sessionStorage.getItem('store')
   var storeobj = JSON.parse(store)
   console.log(storeobj)

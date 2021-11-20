@@ -4,30 +4,31 @@
  * @LastEditTime: 2021-11-18 17:40:07
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \webport\src\components\main\UserInfo.vue
+ * @FilePath: \webport\src\components\main\accountInfo.vue
 -->
 <template>
   <div>
     <template>
-      <a-descriptions title="用 户 信 息" bordered size="small"
+      <a-descriptions title="账 号 信 息" bordered size="small"
         :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }">
         <a-descriptions-item label="用户名" :span="3">
-          {{userInfo.username}}
+          {{accountInfo.username}}
         </a-descriptions-item>
 
         <a-descriptions-item label="邮箱" :span="3">
-          {{userInfo.email}}
+          {{accountInfo.email}}
         </a-descriptions-item>
 
         <a-descriptions-item label="生日">
-          {{userInfo.birthday| formatdate}}
+          {{accountInfo.birthday| formatdate}}
         </a-descriptions-item>
 
         <a-descriptions-item label="余额">
-          ￥ {{parseFloat(userInfo.money).toFixed(2)}}
+          ￥ {{parseFloat(accountInfo.money).toFixed(2)}}
         </a-descriptions-item>
       </a-descriptions>
     </template>
+
   </div>
 </template>
 
@@ -40,8 +41,8 @@ export default {
   name: '',
   data() {
     return {
-      username: window.sessionStorage.getItem('nowuser'),
-      userInfo: {},
+      username: this.$store.state.user.username,
+      accountInfo: {},
     }
   },
   methods: {
@@ -49,7 +50,7 @@ export default {
       const { data: res } = await this.$http.get('getuser?username=' + this.username)
       console.log(res)
       if (res.code == 200) {
-        this.userInfo = res.obj[0]
+        this.accountInfo = res.obj[0]
       }
     },
   },

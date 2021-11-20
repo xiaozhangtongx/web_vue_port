@@ -16,13 +16,13 @@
             @click="showAddArticles()">
             新增
           </a-button>
-          <a-button type="primary" icon="bar-chart">
+          <a-button type="primary" icon="bar-chart" @click=" showArticleCount">
             统计
           </a-button>
         </a-space>
         <a-space>
           <a-input v-model="infor.name" placeholder="请输入文章标题" />
-          <a-button type="primary" icon="search" @click="showAddArticles()">
+          <a-button type="primary" icon="search" @click="getArticleList()">
             查询
           </a-button>
         </a-space>
@@ -37,10 +37,10 @@
         <el-table-column prop="operation" label="操作" align="center">
           <template slot-scope="scope">
             <a-space>
-              <a-button type="primary" icon="edit" @click="editUser()">
+              <a-button type="primary" icon="edit" @click="editArticle(scope.row)">
                 修改
               </a-button>
-              <a-button type="danger" icon="delete" @click="confirmDelet(scope.row.username)">
+              <a-button type="danger" icon="delete" @click="confirmDelet(scope.row.name)">
                 删除
               </a-button>
             </a-space>
@@ -54,11 +54,15 @@
       </el-pagination>
     </a-card>
     <AddArticleForm ref="addarticle" />
+    <EditArticle ref="aditarticle" />
+    <ArticleCountD ref="articlecount" />
   </div>
 </template>
 
 <script>
 import AddArticleForm from '@/components/main/AddArticleForm'
+import EditArticle from '@/components/main/EditArticle'
+import ArticleCountD from '@/components/main/ArticleCountD'
 export default {
   data() {
     return {
@@ -74,6 +78,8 @@ export default {
   },
   components: {
     AddArticleForm,
+    EditArticle,
+    ArticleCountD,
   },
   created() {
     this.getArticleList()
@@ -82,6 +88,7 @@ export default {
   methods: {
     // 获得用户文章列表
     async getArticleList() {
+      console.log(this.infor)
       const { data: res } = await this.$http.post('getarticles', this.infor)
       console.log(res)
       if (res.code == 200) {
@@ -110,33 +117,36 @@ export default {
       this.$refs.addarticle.showAddArticleDialog(this.infor.username)
     },
     // 修改用户文章
-    editUser(username) {
-      this.$refs.addarticle.showEditserDialog(username)
-      console.log('edit')
+    editArticle(info) {
+      this.$refs.aditarticle.showEditArticleDialog(info)
+      console.log('editArticle')
     },
     // 确定是否删除用户文章
-    confirmDelet(username) {
+    confirmDelet(name) {
       this.$confirm({
         title: '此操作将永久删除该文章, 是否继续?',
         okText: '是',
         cancelText: '否',
         icon: 'exclamation-circle',
         onOk: () => {
-          this.deleteUser(username)
+          this.deleteArticle(name)
         },
         onCancel: () => {
           this.$message.warn('你取消了删除操作')
         },
       })
     },
-    async deleteUser(username) {
-      const { data: res } = await this.$http.get('deleteuser?username=' + username)
+    async deleteArticle(name) {
+      const { data: res } = await this.$http.get('deletearticle?name=' + name)
       if (res.code == 200) {
         this.getArticleList()
         return this.$message.success(res.message)
       } else {
         return this.$message.error(res.message)
       }
+    },
+    showArticleCount() {
+      this.$refs.articlecount.showcountArticleDialog()
     },
   },
 }
